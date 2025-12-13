@@ -1,7 +1,6 @@
 # VLSM Subnet Solver // Stealth Edition
 
-![VLSM Solver Banner](public/icon.svg) > **Advanced Allocation Protocol.** A visual, logic-driven IPv4 subnet calculator that actually explains the math behind the mask.
-
+<img src="public/icon.svg" width="100" alt="VLSM Solver Banner" />
 Designed and developed by **Retsos & MasterTsif**.
 
 ## 🌑 Overview
