@@ -120,7 +120,7 @@ export function calculateVLSM(
         { start: 0, end: totalCapacity }
     ];
 
-    // 5. Place items (C full_repack_all)
+    // 5. Place items 
     for (const item of items) {
         const bs = item.blockSize;
         let placed = false;
