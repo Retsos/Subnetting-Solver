@@ -1,36 +1,76 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# VLSM Subnet Solver // Stealth Edition
 
-## Getting Started
+![VLSM Solver Banner](public/icon.svg) > **Advanced Allocation Protocol.** A visual, logic-driven IPv4 subnet calculator that actually explains the math behind the mask.
 
-First, run the development server:
+Designed and developed by **Retsos & MasterTsif**.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 🌑 Overview
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Most subnet calculators just spit out a table. This one visualizes the memory allocation.
+Using a custom **First-Fit Interval Algorithm**, this tool mimics the way computer memory (and strictly aligned IP blocks) are allocated. It solves the fragmentation problem by "backfilling" smaller subnets into the gaps left by larger ones, ensuring 100% adherence to binary alignment rules.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Wrapped in a high-fidelity **Stealth/Matrix UI**, because networking tools don't have to be ugly.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## ⚡ Features
 
-## Learn More
+* **Cup Visualization:** A unique visual representation of IP blocks (32 IPs per "Cup") to easily identify fragmentation and overlaps.
+* **Gap Filling Logic:** Implements a C-style memory allocator logic (ported to TypeScript) to correctly place subnets in available gaps.
+* **Strict Validation:** Prevents invalid IP formats, capacity overflows, and overlapping ranges.
+* **Stealth UI:** Fully custom dark mode interface with neon accents, framer-motion animations, and "cyber-snow" effects.
+* **Step-by-Step Explainer:** Generates a human-readable explanation of the VLSM logic applied.
+* **Real-time Interaction:** React-based architecture for instant feedback.
 
-To learn more about Next.js, take a look at the following resources:
+## 🛠 Tech Stack
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+* **Framework:** [Next.js 14](https://nextjs.org/) (App Router)
+* **Language:** TypeScript
+* **Styling:** [Tailwind CSS](https://tailwindcss.com/)
+* **Animations:** [Framer Motion](https://www.framer.com/motion/)
+* **Icons:** [Lucide React](https://lucide.dev/)
+* **Effects:** React Snowfall
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🚀 Getting Started
 
-## Deploy on Vercel
+1.  **Clone the repository:**
+    ```bash
+    git clone [https://github.com/your-username/vlsm-solver.git](https://github.com/your-username/vlsm-solver.git)
+    cd vlsm-solver
+    ```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+2.  **Install dependencies:**
+    ```bash
+    npm install
+    # or
+    yarn install
+    ```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+3.  **Run the development server:**
+    ```bash
+    npm run dev
+    ```
+
+4.  Open [http://localhost:3000](http://localhost:3000) with your browser.
+
+## 🧠 The Algorithm
+
+Unlike standard calculators that append subnets sequentially (often wasting space), this solver treats the network as a set of **Free Intervals**.
+
+1.  **Sort:** Subnets are sorted by size (Largest to Smallest).
+2.  **Scan:** For each subnet, the algorithm scans available Free Intervals.
+3.  **Align & Fit:** It finds the first available slot where:
+    * The Start IP is divisible by the Block Size (`IP % Size == 0`).
+    * The subnet fits within the interval.
+4.  **Split:** Once placed, the interval is split, and remaining gaps are kept for smaller subnets (like /30 links).
+
+## 📸 Screenshots
+
+*(Add screenshots of your application here)*
+
+## 🤝 Credits
+
+* **Core Logic & UI:** Retsos & MasterTsif
+* **Inspiration:** Classical networking memory allocation diagrams.
+
+## 📄 License
+
+This project is open-source and available under the [MIT License](LICENSE).
