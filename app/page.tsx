@@ -266,7 +266,7 @@ export default function VLSMCalculator() {
                 <Button
                   onClick={handleReset}
                   variant="outline"
-                  className="cursor-pointer border-green-900/40 text-green-700 hover:text-green-500 hover:bg-green-900/20 hover:border-green-600"
+                  className="cursor-pointer bg-black border-green-900/40 text-green-700 hover:text-green-500 hover:bg-green-900/20 hover:border-green-600"
                   title="Reset to Defaults"
                 >
                   <RotateCcw className="w-4 h-4" />
