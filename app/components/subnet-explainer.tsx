@@ -57,7 +57,6 @@ export function SubnetExplainer({ results }: { results: SubnetResult[] }) {
                                         </thead>
                                         <tbody>
                                             {results.map((r, i) => {
-                                                // ΔΙΟΡΘΩΣΗ ΛΟΓΙΚΗΣ ΕΔΩ:
                                                 // Αν είναι Link, το overhead είναι 2 (Net+Broad).
                                                 // Αν είναι Host, το overhead είναι 3 (Net+Broad+Router).
                                                 const overhead = r.type === 'LINK' ? 2 : 3;
