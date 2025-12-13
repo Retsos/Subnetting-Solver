@@ -83,13 +83,12 @@ export function SubnetExplainer({ results }: { results: SubnetResult[] }) {
                             <div className="space-y-2">
                                 <h4 className="font-bold text-green-600 border-b border-green-900/30 inline-block">Βήμα 2: Ταξινόμηση & First-Fit</h4>
                                 <p className="opacity-80">
-                                    Τα υποδίκτυα ταξινομούνται φθινουσως (από το μεγαλύτερο στο μικρότερο).
-                                    Ο αλγόριθμος σαρώνει τη μνήμη για το <strong>πρώτο διαθέσιμο κενό</strong> που τηρεί τον κανόνα ευθυγράμμισης:
+                                    {"Τα υποδίκτυα ταξινομούνται φθινουσως (από το μεγαλύτερο στο μικρότερο).Ο αλγόριθμος σαρώνει τη μνήμη για το <strong>πρώτο διαθέσιμο κενό</strong> που τηρεί τον κανόνα ευθυγράμμισης:"}
                                     <br />
                                     <code className="text-yellow-700 text-xs mt-1 block">NetworkID % BlockSize == 0</code>
                                 </p>
                                 <p className="text-xs text-green-800 italic">
-                                    *Αυτό επιτρέπει στα μικρά links (Z) να "γεμίζουν" τα κενά που αφήνουν τα μεγάλα δίκτυα για να ευθυγραμμιστούν.
+                                    {"*Αυτό επιτρέπει στα μικρά links (Z) να 'γεμίζουν' τα κενά που αφήνουν τα μεγάλα δίκτυα για να ευθυγραμμιστούν."}
                                 </p>
                             </div>
 

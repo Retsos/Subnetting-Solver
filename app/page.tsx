@@ -19,23 +19,22 @@ const isValidIP = (ip: string) => {
   return regex.test(ip);
 };
 
-// Helper: Function to calculate Last Assigned IP based on hosts count
-// (Χρησιμοποιείται για να βρούμε που τελειώνουν τα ζητούμενα hosts και που αρχίζουν τα κενά)
+// Helper: Add count to IP
 const addIPs = (ip: string, count: number): string => {
-    const parts = ip.split('.').map(Number);
-    let val = ((parts[0] << 24) | (parts[1] << 16) | (parts[2] << 8) | parts[3]) >>> 0;
-    val += count;
-    return [
-        (val >>> 24) & 0xff,
-        (val >>> 16) & 0xff,
-        (val >>> 8) & 0xff,
-        val & 0xff,
-    ].join('.');
+  const parts = ip.split('.').map(Number);
+  let val = ((parts[0] << 24) | (parts[1] << 16) | (parts[2] << 8) | parts[3]) >>> 0;
+  val += count;
+  return [
+    (val >>> 24) & 0xff,
+    (val >>> 16) & 0xff,
+    (val >>> 8) & 0xff,
+    val & 0xff,
+  ].join('.');
 }
 
-// Helper: Check if Spare Range exists (Assigned End < Total Range End)
+// Helper: Check if Spare Range exists
 const hasSpareIPs = (assignedEndIP: string, rangeEndIP: string) => {
-    return assignedEndIP !== rangeEndIP;
+  return assignedEndIP !== rangeEndIP;
 }
 
 export default function VLSMCalculator() {
@@ -48,7 +47,7 @@ export default function VLSMCalculator() {
   const [basePrefix, setBasePrefix] = useState<number | string>(INITIAL_PREFIX);
   const [subnets, setSubnets] = useState(INITIAL_SUBNETS);
   const [links, setLinks] = useState<number | string>(INITIAL_LINKS);
-  
+
   const [results, setResults] = useState<SubnetResult[] | null>(null);
   const [showLineByLine, setShowLineByLine] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -65,7 +64,7 @@ export default function VLSMCalculator() {
   const handleReset = () => {
     setBaseIP(INITIAL_IP);
     setBasePrefix(INITIAL_PREFIX);
-    setSubnets([{ id: Date.now().toString(), name: "A1", hosts: 12 }]); 
+    setSubnets([{ id: Date.now().toString(), name: "A1", hosts: 12 }]);
     setLinks(INITIAL_LINKS);
     setResults(null);
     setError(null);
@@ -103,8 +102,8 @@ export default function VLSMCalculator() {
       return;
     }
     if (subnets.length === 0 && parsedLinks === 0) {
-        setError("Please add at least one subnet or link.");
-        return;
+      setError("Please add at least one subnet or link.");
+      return;
     }
     if (subnets.some(s => !s.name || s.hosts <= 0)) {
       setError("All subnets must have a name and at least 1 host.");
@@ -118,7 +117,7 @@ export default function VLSMCalculator() {
     try {
       const { results, totalUsed } = calculateVLSM(baseIP, parsedPrefix, subnets, parsedLinks);
       const totalCapacity = Math.pow(2, 32 - parsedPrefix);
-      
+
       if (totalUsed > totalCapacity) {
         setError(`Insufficient Capacity! Need ${totalUsed} IPs but network /${parsedPrefix} only has ${totalCapacity}.`);
         setResults(null);
@@ -200,10 +199,10 @@ export default function VLSMCalculator() {
                       <Input
                         type="number"
                         value={basePrefix}
-                        onChange={(e) => { 
-                            const val = e.target.value === "" ? "" : Number(e.target.value);
-                            setBasePrefix(val); 
-                            resetResults(); 
+                        onChange={(e) => {
+                          const val = e.target.value === "" ? "" : Number(e.target.value);
+                          setBasePrefix(val);
+                          resetResults();
                         }}
                         className="bg-black/40 border-green-900/30 text-yellow-600 h-9 font-mono text-center"
                         placeholder="24"
@@ -251,10 +250,10 @@ export default function VLSMCalculator() {
                       type="number"
                       value={links === 0 ? "" : links}
                       placeholder="0"
-                      onChange={(e) => { 
-                          const val = e.target.value === "" ? "" : Number(e.target.value);
-                          setLinks(val); 
-                          resetResults(); 
+                      onChange={(e) => {
+                        const val = e.target.value === "" ? "" : Number(e.target.value);
+                        setLinks(val);
+                        resetResults();
                       }}
                       className="bg-black/40 border-green-900/30 text-green-500 h-8 font-mono"
                     />
@@ -264,18 +263,18 @@ export default function VLSMCalculator() {
 
               {/* ACTION BUTTONS */}
               <div className="flex gap-3">
-                <Button 
-                    onClick={handleReset}
-                    variant="outline"
-                    className="cursor-pointer bg-black border-green-900/40 text-green-700 hover:text-green-500 hover:bg-green-900/20 hover:border-green-600"
-                    title="Reset to Defaults"
+                <Button
+                  onClick={handleReset}
+                  variant="outline"
+                  className="cursor-pointer border-green-900/40 text-green-700 hover:text-green-500 hover:bg-green-900/20 hover:border-green-600"
+                  title="Reset to Defaults"
                 >
-                    <RotateCcw className="w-4 h-4" />
+                  <RotateCcw className="w-4 h-4" />
                 </Button>
-                
+
                 <Button onClick={handleCalculate} className="flex-1 cursor-pointer bg-green-900/20 hover:bg-green-900/30 text-green-500 border border-green-900/50">
-                    <Activity className="w-4 h-4 mr-2" />
-                    Calculate Allocation
+                  <Activity className="w-4 h-4 mr-2" />
+                  Calculate Allocation
                 </Button>
               </div>
 
@@ -289,7 +288,7 @@ export default function VLSMCalculator() {
                   {/* Visualizer */}
                   <SubnetVisualizer results={results} basePrefix={Number(basePrefix) || 24} />
 
-                  {/* Table  */}
+                  {/* Table - UPDATED COLUMNS */}
                   <div className="rounded-md border border-green-900/20 bg-[#080808] overflow-hidden">
                     <div className="overflow-x-auto">
                       <table className="w-full text-left text-sm">
@@ -299,7 +298,6 @@ export default function VLSMCalculator() {
                             <th className="px-4 py-3">Req/Block</th>
                             <th className="px-4 py-3">Network IP</th>
                             <th className="px-4 py-3">Router IP</th>
-                            {/* Changed Mask to Broadcast */}
                             <th className="px-4 py-3">Broadcast</th>
                           </tr>
                         </thead>
@@ -315,11 +313,9 @@ export default function VLSMCalculator() {
                               <td className="px-4 py-3 font-mono text-green-400">
                                 {res.networkIP}<span className="text-green-800">/{res.prefix}</span>
                               </td>
-                              {/* Router logic: If Link, show dash */}
                               <td className="px-4 py-3 font-mono text-green-600">
                                 {res.type === 'LINK' ? '-' : res.routerIP}
                               </td>
-                              {/* Broadcast IP logic */}
                               <td className="px-4 py-3 font-mono text-red-900/80">{res.broadcastIP}</td>
                             </tr>
                           ))}
@@ -328,12 +324,12 @@ export default function VLSMCalculator() {
                     </div>
                   </div>
 
-                  {/* Line by Line Details  */}
+                  {/* Line by Line Details - FIXED LINK LOGIC */}
                   <div className="border border-green-900/20 rounded bg-[#0a0a0a]">
                     <button
                       type="button"
                       onClick={() => setShowLineByLine(!showLineByLine)}
-                      className="w-full cursor-pointer flex items-center justify-between p-3 text-xs uppercase font-bold text-green-700 hover:bg-green-900/5 transition-colors"
+                      className="w-full flex items-center justify-between p-3 text-xs uppercase font-bold text-green-700 hover:bg-green-900/5 transition-colors"
                     >
                       <span className="flex items-center gap-2"><List className="w-4 h-4" /> Show IPs Line-by-Line</span>
                       <span className="text-green-900">{showLineByLine ? "Collapse" : "Expand"}</span>
@@ -349,72 +345,72 @@ export default function VLSMCalculator() {
                         [&::-webkit-scrollbar-thumb]:hover:bg-green-600/60"
                       >
                         {results.map((res, i) => {
-                            // Calculate where the "Assigned" hosts end
-                            const lastAssigned = addIPs(res.rangeStart, res.hostsRequested - 1);
-                            const hasSpare = hasSpareIPs(lastAssigned, res.rangeEnd);
-                            const firstSpare = addIPs(lastAssigned, 1);
+                          // Calculate where the "Assigned" hosts end
+                          const lastAssigned = addIPs(res.rangeStart, res.hostsRequested - 1);
+                          const hasSpare = hasSpareIPs(lastAssigned, res.rangeEnd);
+                          const firstSpare = addIPs(lastAssigned, 1);
 
-                            return (
-                              <div key={i} className="space-y-1">
-                                <div className="text-green-500 font-bold mb-1 flex items-center gap-2">
-                                  <span>Subnet {res.name} (/{res.prefix})</span>
-                                  {res.type === 'LINK' && <span className="text-[10px] bg-green-900/20 px-1 rounded text-green-600">LINK</span>}
+                          return (
+                            <div key={i} className="space-y-1">
+                              <div className="text-green-500 font-bold mb-1 flex items-center gap-2">
+                                <span>Subnet {res.name} (/{res.prefix})</span>
+                                {res.type === 'LINK' && <span className="text-[10px] bg-green-900/20 px-1 rounded text-green-600">LINK</span>}
+                              </div>
+                              <div className="pl-4 text-green-800 space-y-0.5">
+                                {/* Network */}
+                                <div className="flex gap-2">
+                                  <span className="w-16 text-right opacity-50">Network:</span>
+                                  <span className="text-green-600">{res.networkIP}</span>
                                 </div>
-                                <div className="pl-4 text-green-800 space-y-0.5">
-                                  {/* Network */}
-                                  <div className="flex gap-2">
-                                    <span className="w-16 text-right opacity-50">Network:</span> 
-                                    <span className="text-green-600">{res.networkIP}</span>
-                                  </div>
 
-                                  {/* LINK DISPLAY LOGIC */}
-                                  {res.type === 'LINK' ? (
-                                    <>
-                                        <div className="flex gap-2">
-                                            <span className="w-16 text-right opacity-50">Endpoint A:</span> 
-                                            <span className="text-yellow-700">{res.rangeStart}</span>
-                                        </div>
-                                        <div className="flex gap-2">
-                                            <span className="w-16 text-right opacity-50">Endpoint B:</span> 
-                                            <span className="text-yellow-700">{res.rangeEnd}</span>
-                                        </div>
-                                    </>
-                                  ) : (
-                                    /* HOST DISPLAY LOGIC */
-                                    <>
-                                        <div className="flex gap-2">
-                                            <span className="w-16 text-right opacity-50">Router:</span> 
-                                            <span className="text-yellow-700">{res.routerIP}</span>
-                                        </div>
-                                        <div className="flex gap-2">
-                                            <span className="w-16 text-right opacity-50">Hosts ({res.hostsRequested}):</span> 
-                                            <span className="text-green-500">
-                                                {/* Ξεκινάμε από Router + 1 γιατί το router είναι το 1ο usable συνήθως, 
-                                                    αλλά εδώ το rangeStart υπολογίστηκε στο logic ως Net+2 (δλδ το 1ο Host device).
-                                                    Οπότε είναι σωστό. */}
-                                                {res.rangeStart} - {lastAssigned}
-                                            </span>
-                                        </div>
-                                        {/* SHOW SPARE IPS IF ANY */}
-                                        {hasSpare && (
-                                            <div className="flex gap-2 opacity-50">
-                                                <span className="w-16 text-right">Spare:</span> 
-                                                <span className="text-green-900 italic">
-                                                    {firstSpare} - {res.rangeEnd}
-                                                </span>
-                                            </div>
-                                        )}
-                                    </>
-                                  )}
+                                {/* LINK DISPLAY LOGIC - FIXED */}
+                                {res.type === 'LINK' ? (
+                                  <>
+                                    <div className="flex gap-2">
+                                      <span className="w-16 text-right opacity-50">Endpoint A:</span>
+                                      {/* Στα Links, το RouterIP έχει αποθηκεύσει το (Network + 1) */}
+                                      <span className="text-yellow-700">{res.routerIP}</span>
+                                    </div>
+                                    <div className="flex gap-2">
+                                      <span className="w-16 text-right opacity-50">Endpoint B:</span>
+                                      {/* Στα Links /30, το RangeEnd είναι το (Network + 2) */}
+                                      <span className="text-yellow-700">{res.rangeEnd}</span>
+                                    </div>
+                                  </>
+                                ) : (
+                                  /* HOST DISPLAY LOGIC */
+                                  <>
+                                    <div className="flex gap-2">
+                                      <span className="w-16 text-right opacity-50">Router:</span>
+                                      <span className="text-yellow-700">{res.routerIP}</span>
+                                    </div>
+                                    <div className="flex gap-2">
+                                      <span className="w-16 text-right opacity-50">Hosts ({res.hostsRequested}):</span>
+                                      <span className="text-green-500">
+                                        {res.rangeStart} - {lastAssigned}
+                                      </span>
+                                    </div>
+                                    {/* SHOW SPARE IPS IF ANY */}
+                                    {hasSpare && (
+                                      <div className="flex gap-2 opacity-50">
+                                        <span className="w-16 text-right">Spare:</span>
+                                        <span className="text-green-900 italic">
+                                          {/* Αν είναι μόνο μία IP, μην δείχνεις εύρος */}
+                                          {firstSpare === res.rangeEnd ? firstSpare : `${firstSpare} - ${res.rangeEnd}`}
+                                        </span>
+                                      </div>
+                                    )}
+                                  </>
+                                )}
 
-                                  {/* Broadcast */}
-                                  <div className="flex gap-2">
-                                    <span className="w-16 text-right opacity-50">Broadcast:</span> 
-                                    <span className="text-red-900/70">{res.broadcastIP}</span>
-                                  </div>
+                                {/* Broadcast */}
+                                <div className="flex gap-2">
+                                  <span className="w-16 text-right opacity-50">Broadcast:</span>
+                                  <span className="text-red-900/70">{res.broadcastIP}</span>
                                 </div>
                               </div>
-                            );
+                            </div>
+                          );
                         })}
                       </div>
                     )}
