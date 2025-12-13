@@ -1,38 +1,60 @@
-# VLSM Subnet Solver // Stealth Edition
+<div align="center">
+  <img src="public/icon.svg" width="120" alt="VLSM Solver Logo" />
+  <br/>
+  <h1>VLSM Subnet Solver // STEALTH EDITION</h1>
+  
+  <p>
+    <i>"Because wasting IP addresses is a crime against the network."</i>
+  </p>
+  
+  <p>
+    <b>First-Fit Memory Allocation • Gap Filling Logic • Visual Mapping</b>
+  </p>
+</div>
 
-<img src="public/icon.svg" width="100" alt="VLSM Solver Banner" />
-Designed and developed by **Retsos & MasterTsif**.
+---
 
 ## 🌑 Overview
 
-Most subnet calculators just spit out a table. This one visualizes the memory allocation.
-Using a custom **First-Fit Interval Algorithm**, this tool mimics the way computer memory (and strictly aligned IP blocks) are allocated. It solves the fragmentation problem by "backfilling" smaller subnets into the gaps left by larger ones, ensuring 100% adherence to binary alignment rules.
+Most subnet calculators are glorified spreadsheets. They just append subnets linearly, wasting space and failing to visualize fragmentation. 
 
-Wrapped in a high-fidelity **Stealth/Matrix UI**, because networking tools don't have to be ugly.
+**This is different.** This tool treats IP address space like computer memory. It implements a strict **First-Fit Interval Algorithm** (ported from low-level C) to intelligently fill gaps. If a large subnet leaves a "hole" due to binary alignment rules, this solver will circle back and fit smaller subnets (like /30 links) into those empty pockets.
+
+Wrapped in a high-fidelity **Stealth/Matrix UI**, because networking tools shouldn't look like they were built in 1998.
 
 ## ⚡ Features
 
-* **Cup Visualization:** A unique visual representation of IP blocks (32 IPs per "Cup") to easily identify fragmentation and overlaps.
-* **Gap Filling Logic:** Implements a C-style memory allocator logic (ported to TypeScript) to correctly place subnets in available gaps.
-* **Strict Validation:** Prevents invalid IP formats, capacity overflows, and overlapping ranges.
-* **Stealth UI:** Fully custom dark mode interface with neon accents, framer-motion animations, and "cyber-snow" effects.
-* **Step-by-Step Explainer:** Generates a human-readable explanation of the VLSM logic applied.
-* **Real-time Interaction:** React-based architecture for instant feedback.
+* **Cup Visualization:** A unique visual representation of IP blocks (32 IPs per "Cup"). Instantly spot fragmentation, reserved space, and broadcast overhead.
+* **Gap Filling Logic:** Unlike standard linear allocators, this engine creates a map of "Free Intervals" and fits subnets into the first valid slot that adheres to alignment rules (`Offset % BlockSize == 0`).
+* **Strict Validation:** Regex-based IP policing, overlap detection, and capacity overflow protection.
+* **Stealth UI:** Fully custom dark mode interface with neon accents, `framer-motion` animations, and reactive inputs.
+* **Detailed Breakdown:** Provides a line-by-line analysis of Network, Router, Usable Range, and Broadcast IPs for every subnet.
+
+## 🧠 The Algorithm
+
+The core logic is based on **Memory Management Principles**:
+
+1.  **Normalization:** All inputs are converted to unsigned 32-bit integers.
+2.  **Sorting:** Subnets are sorted by size (Descending), prioritizing Hosts over Links to minimize fragmentation.
+3.  **Interval Scanning:**
+    * The network starts as one giant `Free Interval`.
+    * For each request, we scan the intervals for a slot where `StartIP % BlockSize == 0`.
+    * Once placed, the interval is **split**, creating new (smaller) free intervals before and after the block.
+4.  **Backfilling:** Small subnets (like Point-to-Point links) automatically fill the gaps left by the alignment of larger blocks.
 
 ## 🛠 Tech Stack
 
 * **Framework:** [Next.js 14](https://nextjs.org/) (App Router)
-* **Language:** TypeScript
+* **Language:** TypeScript (Strict Mode)
 * **Styling:** [Tailwind CSS](https://tailwindcss.com/)
 * **Animations:** [Framer Motion](https://www.framer.com/motion/)
 * **Icons:** [Lucide React](https://lucide.dev/)
-* **Effects:** React Snowfall
 
 ## 🚀 Getting Started
 
 1.  **Clone the repository:**
     ```bash
-    git clone [https://github.com/your-username/vlsm-solver.git](https://github.com/your-username/vlsm-solver.git)
+    git clone https://github.com/Retsos/Subnetting-Solver.git
     cd my-app
     ```
 
@@ -43,32 +65,25 @@ Wrapped in a high-fidelity **Stealth/Matrix UI**, because networking tools don't
     yarn install
     ```
 
-3.  **Run the development server:**
+3.  **Run the dev server:**
     ```bash
     npm run dev
     ```
 
-4.  Open [http://localhost:3000](http://localhost:3000) with your browser.
+4.  **Open the portal:** Navigate to [http://localhost:3000](http://localhost:3000).
 
-## 🧠 The Algorithm
+## 👥 Ops / Credits
 
-Unlike standard calculators that append subnets sequentially (often wasting space), this solver treats the network as a set of **Free Intervals**.
+This tool is a collaboration between low-level logic and high-level visuals.
 
-1.  **Sort:** Subnets are sorted by size (Largest to Smallest).
-2.  **Scan:** For each subnet, the algorithm scans available Free Intervals.
-3.  **Align & Fit:** It finds the first available slot where:
-    * The Start IP is divisible by the Block Size (`IP % Size == 0`).
-    * The subnet fits within the interval.
-4.  **Split:** Once placed, the interval is split, and remaining gaps are kept for smaller subnets (like /30 links).
-
-## 📸 Screenshots
-<img width="1919" height="786" alt="image" src="https://github.com/user-attachments/assets/42cf8e13-5f35-4acb-9250-05c658a7a08d" />
-
-## 🤝 Credits
-
-* **Core Logic & UI:** MasterTsif & Retsos
-* **Inspiration:** Classical networking memory allocation diagrams.
+* **[MasterTsif]**: Logic Core & C Implementation. The one who talks to the metal.
+* **[Retsos]**: Frontend Architecture, UI/UX & Visuals. The one who makes the Matrix look good.
 
 ## 📄 License
 
-This project is open-source and available under the [MIT License](LICENSE).
+Distributed under the **MIT License**. Use it to optimize your networks, pass your exams, or just stare at the falling code.
+
+<div align="center">
+  <br/>
+  <span style="color: #15803d; font-family: monospace;">SYSTEM READY</span>
+</div>
