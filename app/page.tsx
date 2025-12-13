@@ -289,7 +289,7 @@ export default function VLSMCalculator() {
                   {/* Visualizer */}
                   <SubnetVisualizer results={results} basePrefix={Number(basePrefix) || 24} />
 
-                  {/* Table - UPDATED COLUMNS */}
+                  {/* Table  */}
                   <div className="rounded-md border border-green-900/20 bg-[#080808] overflow-hidden">
                     <div className="overflow-x-auto">
                       <table className="w-full text-left text-sm">
@@ -328,7 +328,7 @@ export default function VLSMCalculator() {
                     </div>
                   </div>
 
-                  {/* Line by Line Details - UPDATED DISPLAY LOGIC */}
+                  {/* Line by Line Details  */}
                   <div className="border border-green-900/20 rounded bg-[#0a0a0a]">
                     <button
                       type="button"
