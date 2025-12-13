@@ -33,7 +33,7 @@ Wrapped in a high-fidelity **Stealth/Matrix UI**, because networking tools don't
 1.  **Clone the repository:**
     ```bash
     git clone [https://github.com/your-username/vlsm-solver.git](https://github.com/your-username/vlsm-solver.git)
-    cd vlsm-solver
+    cd my-app
     ```
 
 2.  **Install dependencies:**
@@ -62,12 +62,11 @@ Unlike standard calculators that append subnets sequentially (often wasting spac
 4.  **Split:** Once placed, the interval is split, and remaining gaps are kept for smaller subnets (like /30 links).
 
 ## 📸 Screenshots
-
-*(Add screenshots of your application here)*
+<img width="1919" height="786" alt="image" src="https://github.com/user-attachments/assets/42cf8e13-5f35-4acb-9250-05c658a7a08d" />
 
 ## 🤝 Credits
 
-* **Core Logic & UI:** Retsos & MasterTsif
+* **Core Logic & UI:** MasterTsif & Retsos
 * **Inspiration:** Classical networking memory allocation diagrams.
 
 ## 📄 License
