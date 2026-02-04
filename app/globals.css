@@ -43,6 +43,51 @@
   --radius-xl: calc(var(--radius) + 4px);
 }
 
+.glitch {
+  position: relative;
+  animation: glitch-skew 1s infinite linear alternate-reverse;
+}
+
+.glitch::before,
+.glitch::after {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+}
+
+.glitch::before {
+  left: 2px;
+  text-shadow: -2px 0 #00ff88;
+  clip-path: inset(0 0 60% 0);
+  animation: glitch-top 1s infinite linear alternate-reverse;
+}
+
+.glitch::after {
+  left: -2px;
+  text-shadow: -2px 0 #008844;
+  clip-path: inset(60% 0 0 0);
+  animation: glitch-bottom 1.2s infinite linear alternate-reverse;
+}
+
+@keyframes glitch-top {
+  0% { transform: translate(0); }
+  50% { transform: translate(-2px, -2px); }
+  100% { transform: translate(2px, 2px); }
+}
+
+@keyframes glitch-bottom {
+  0% { transform: translate(0); }
+  50% { transform: translate(2px, 2px); }
+  100% { transform: translate(-2px, -2px); }
+}
+
+@keyframes glitch-skew {
+  0% { transform: skew(0deg); }
+  50% { transform: skew(1deg); }
+  100% { transform: skew(-1deg); }
+}
+
+
 :root {
   --radius: 0.625rem;
   --background: oklch(1 0 0);
